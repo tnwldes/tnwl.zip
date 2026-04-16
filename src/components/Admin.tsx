@@ -169,15 +169,47 @@ export default function Admin({ content, onUpdate }: AdminProps) {
               </div>
               {editContent.projects.map((project, i) => (
                 <div key={i} className="p-6 rounded-2xl bg-background border border-white/20 flex flex-col gap-4 relative group">
-                  <button 
-                    onClick={() => {
-                      const newProjects = editContent.projects.filter((_, index) => index !== i);
-                      setEditContent({ ...editContent, projects: newProjects });
-                    }}
-                    className="absolute top-4 right-4 p-2 rounded-lg bg-red-500/10 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500 hover:text-white"
-                  >
-                    <X size={16} />
-                  </button>
+                  <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex gap-1 bg-white/50 backdrop-blur-sm rounded-lg p-1 border border-white/20">
+                      <button 
+                        onClick={() => {
+                          if (i === 0) return;
+                          const newProjects = [...editContent.projects];
+                          const temp = newProjects[i];
+                          newProjects[i] = newProjects[i - 1];
+                          newProjects[i - 1] = temp;
+                          setEditContent({ ...editContent, projects: newProjects });
+                        }}
+                        className="p-1.5 text-sub hover:text-primary disabled:opacity-30"
+                        disabled={i === 0}
+                      >
+                        <ChevronUp size={16} />
+                      </button>
+                      <button 
+                        onClick={() => {
+                          if (i === editContent.projects.length - 1) return;
+                          const newProjects = [...editContent.projects];
+                          const temp = newProjects[i];
+                          newProjects[i] = newProjects[i + 1];
+                          newProjects[i + 1] = temp;
+                          setEditContent({ ...editContent, projects: newProjects });
+                        }}
+                        className="p-1.5 text-sub hover:text-primary disabled:opacity-30"
+                        disabled={i === editContent.projects.length - 1}
+                      >
+                        <ChevronDown size={16} />
+                      </button>
+                    </div>
+                    <button 
+                      onClick={() => {
+                        const newProjects = editContent.projects.filter((_, index) => index !== i);
+                        setEditContent({ ...editContent, projects: newProjects });
+                      }}
+                      className="p-2 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all"
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
                   <input 
                     type="text" 
                     value={project.title}
