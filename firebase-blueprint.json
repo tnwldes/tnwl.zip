@@ -1,0 +1,100 @@
+{
+  "entities": {
+    "portfolioContent": {
+      "title": "Portfolio Content",
+      "description": "Stores all editable content for the portfolio dashboard",
+      "type": "object",
+      "properties": {
+        "hero": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "subtitle": { "type": "string" },
+            "backgroundImage": { "type": "string" }
+          }
+        },
+        "analytics": {
+          "type": "object",
+          "properties": {
+            "totalTime": { "type": "string" },
+            "categories": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "label": { "type": "string" },
+                  "percentage": { "type": "number" },
+                  "color": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "schedule": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "time": { "type": "string" },
+              "task": { "type": "string" },
+              "description": { "type": "string" },
+              "color": { "type": "string" }
+            }
+          }
+        },
+        "projects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "description": { "type": "string" },
+              "image": { "type": "string" },
+              "link": { "type": "string" },
+              "tags": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": { "type": "string" },
+              "status": { "type": "string", "enum": ["High", "Medium", "Low"] }
+            }
+          }
+        },
+        "growth": {
+          "type": "object",
+          "properties": {
+            "sitesCount": { "type": "number" },
+            "experienceYears": { "type": "number" },
+            "projectsCount": { "type": "number" }
+          }
+        }
+      }
+    },
+    "user": {
+      "title": "User",
+      "description": "User profile and roles",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "viewer"] }
+      },
+      "required": ["uid", "email", "role"]
+    }
+  },
+  "firestore": {
+    "/content/main": {
+      "schema": "portfolioContent",
+      "description": "Main portfolio content"
+    },
+    "/users/{userId}": {
+      "schema": "user",
+      "description": "User profile"
+    }
+  }
+}
